@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desi Login</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            background-color: #f9f2e6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+
+        .login-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 380px;
+            text-align: center;
+        }
+
+        .login-container h2 {
+            color: #d32f2f;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-transform: capitalize;
+            font-family: 'Georgia', serif;
+        }
+
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            width: calc(100% - 20px);
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 14px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-container button:hover {
+            background-color: #43a047;
+        }
+
+        .login-container .error-message {
+            color: #d32f2f;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .login-container .switch-page {
+            margin-top: 25px;
+        }
+
+        .login-container .switch-page a {
+            color: #1976d2;
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <h2>Desi Login</h2>
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button onclick="login()">Login</button>
+        <div class="error-message" id="login-error-message"></div>
+        <div class="switch-page">
+            <a href="http://localhost:8002/register">Don't have an account? Register here.</a>
+        </div>
+    </div>
+
+    <script>
+        async function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('login-error-message');
+
+            const response = await fetch('http://localhost:8001/login', { // Explicitly use the login server's URL
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                window.location.href = 'http://localhost:8001/'; // Redirect to index served by login server
+            } else if (data.errors) {
+                let errorText = '';
+                if (data.errors.username) {
+                    errorText += data.errors.username + '<br>';
+                }
+                if (data.errors.password) {
+                    errorText += data.errors.password + '<br>';
+                }
+                errorMessage.innerHTML = errorText || data.message;
+            } else {
+                errorMessage.textContent = data.message;
+            }
+        }
+    </script>
+</body>
+
+</html>

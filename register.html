@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desi Registration</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            background-color: #f9f2e6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+
+        .login-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 380px;
+            text-align: center;
+        }
+
+        .login-container h2 {
+            color: #d32f2f;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-transform: capitalize;
+            font-family: 'Georgia', serif;
+        }
+
+        .login-container input[type="text"],
+        .login-container input[type="password"],
+        .login-container input[type="email"],
+        .login-container input[type="tel"] {
+            width: calc(100% - 20px);
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 14px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-container button:hover {
+            background-color: #43a047;
+        }
+
+        .login-container .error-message {
+            color: #d32f2f;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .login-container .switch-page {
+            margin-top: 25px;
+        }
+
+        .login-container .switch-page a {
+            color: #1976d2;
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <h2>Desi Registration</h2>
+        <input type="text" id="reg-username" placeholder="Username" required>
+        <input type="password" id="reg-password" placeholder="Password" required>
+        <input type="email" id="reg-email" placeholder="Email" required>
+        <input type="tel" id="reg-phone" placeholder="Phone Number" required>
+        <button onclick="register()">Register</button>
+        <div class="error-message" id="register-error-message"></div>
+        <div class="switch-page">
+            <a href="http://localhost:8001/login">Already have an account? Login here.</a>
+        </div>
+    </div>
+
+    <script>
+        async function register() {
+            const username = document.getElementById('reg-username').value;
+            const password = document.getElementById('reg-password').value;
+            const email = document.getElementById('reg-email').value;
+            const phone = document.getElementById('reg-phone').value;
+            const errorMessage = document.getElementById('register-error-message');
+
+            // Frontend validation (same as before)
+            if (!username.trim()) {
+                errorMessage.textContent = 'Username cannot be empty.';
+                return;
+            }
+            if (password.length < 8) {
+                errorMessage.textContent = 'Password must be at least 8 characters long.';
+                return;
+            }
+            if (!/[A-Z]/.test(password)) {
+                errorMessage.textContent = 'Password must contain at least one uppercase letter.';
+                return;
+            }
+            if (!/[a-z]/.test(password)) {
+                errorMessage.textContent = 'Password must contain at least one lowercase letter.';
+                return;
+            }
+            if (!/[0-9]/.test(password)) {
+                errorMessage.textContent = 'Password must contain at least one digit.';
+                return;
+            }
+            if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+                errorMessage.textContent = 'Password must contain at least one special character.';
+                return;
+            }
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                errorMessage.textContent = 'Invalid email address.';
+                return;
+            }
+            const phoneRegex = /^(\+91[\-\s]?)?[6789]\d{9}$/;
+            if (!phoneRegex.test(phone)) {
+                errorMessage.textContent = 'Invalid Indian phone number.';
+                return;
+            }
+
+            const response = await fetch('http://localhost:8002/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password, email, phone })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                errorMessage.textContent = 'Registration successful!';
+                window.location.href = 'http://localhost:8002/'; // Redirect to index served by registration server
+            } else if (data.errors) {
+                let errorText = '';
+                if (data.errors.username) errorText += data.errors.username + '<br>';
+                if (data.errors.password) errorText += data.errors.password + '<br>';
+                if (data.errors.email) errorText += data.errors.email + '<br>';
+                if (data.errors.phone) errorText += data.errors.phone + '<br>';
+                errorMessage.innerHTML = errorText || data.message;
+            } else {
+                errorMessage.textContent = data.message;
+            }
+        }
+    </script>
+</body>
+
+</html>

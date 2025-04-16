@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Regional Cuisine</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        header {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        nav a {
+            margin: 0 1rem;
+            text-decoration: none;
+            color: #555;
+            font-weight: bold;
+        }
+
+        nav a.active,
+        nav a:hover {
+            color: #FF5733;
+            border-bottom: 2px solid #FF5733;
+        }
+
+        .section {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: scale(1.02);
+        }
+
+        .card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 1rem;
+        }
+
+        .card h3 {
+            margin: 0.5rem 0;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .navbar .title {
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .navbar input[type="search"] {
+            width: 300px;
+            height: 35px;
+            padding: 5px 10px;
+            font-size: 16px;
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            nav a {
+                margin: 0.5rem 0;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="navbar">
+                <div class="title">Desi</div>
+                <div>
+                    <input id="search" name="search" placeholder="Search" type="search">
+                </div>
+            </div>
+
+            <div class="links">
+                <a href="index.html">Home</a>
+                <a href="handicrafts.html">Handicrafts</a>
+                <a href="culture.html">Culture & Heritage</a>
+                <a href="pure.html">Pure & Natural</a>
+                <a href="dishes.html" class="active">Regional Cuisine</a>
+                <a href="community.html">Community</a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="section">
+        <h2>Regional Dishes</h2>
+        <div class="grid">
+            <div class="card">
+                <img src="https://creatie.ai/ai/api/search-image?query=South+Indian+Idli+Sambhar&width=400&height=300"
+                    alt="South Indian Idli Sambhar">
+                <div class="card-content">
+                    <h3>South Indian</h3>
+                    <p>Idli Sambhar</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://creatie.ai/ai/api/search-image?query=Punjabi+Butter+Chicken&width=400&height=300"
+                    alt="Punjabi Butter Chicken">
+                <div class="card-content">
+                    <h3>Punjabi</h3>
+                    <p>Butter Chicken</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://creatie.ai/ai/api/search-image?query=Gujarati+Dhokla&width=400&height=300"
+                    alt="Gujarati Dhokla">
+                <div class="card-content">
+                    <h3>Gujarati</h3>
+                    <p>Dhokla</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://creatie.ai/ai/api/search-image?query=Bengali+Fish+Curry&width=400&height=300"
+                    alt="Bengali Fish Curry">
+                <div class="card-content">
+                    <h3>Bengali</h3>
+                    <p>Fish Curry</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>-
